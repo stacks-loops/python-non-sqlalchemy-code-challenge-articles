@@ -5,7 +5,7 @@ class Article:
 
     def __init__(self, author, magazine, title="placeholder"):
         self._author = author
-        self.magazine = magazine
+        self._magazine = magazine
         self._title = title
         Article.all.append(self)
     
@@ -16,6 +16,8 @@ class Article:
     def title(self, new_title):
         if type(new_title) == str and 5 <= len(new_title) <= 50:
             self._title = new_title
+        else:
+            print("Title is not valid")
 
     @property
     def author(self):
@@ -25,6 +27,19 @@ class Article:
     def author(self, author):
           if isinstance(author, Author):
               self._author = author
+          else:
+              print("Author is not valid")
+
+    @property
+    def magazine(self):
+        return self._magazine
+
+    @magazine.setter
+    def magazine(self, magazine):
+          if isinstance(magazine, Magazine):
+              self._magazine = magazine
+
+   
 
         
 class Author:
@@ -41,10 +56,14 @@ class Author:
             self._name = name
 
     def articles(self):
-        pass
+        return [article for article in Article.all if article.author == self]
+    def add_article(self, article):
+        if not isinstance(article, Article):
+            raise TypeError("Article must be an instance of Article class")
+        article.author = self
 
     def magazines(self):
-        pass
+        return []
 
     def add_article(self, magazine, title):
         pass
