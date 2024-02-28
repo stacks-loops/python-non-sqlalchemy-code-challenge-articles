@@ -39,8 +39,6 @@ class Article:
           if isinstance(magazine, Magazine):
               self._magazine = magazine
 
-   
-
         
 class Author:
     def __init__(self, name):
@@ -57,21 +55,23 @@ class Author:
 
     def articles(self):
         return [article for article in Article.all if article.author == self]
-    def add_article(self, article):
-        if not isinstance(article, Article):
-            raise TypeError("Article must be an instance of Article class")
-        article.author = self
+    def add_article(self, magazine, title):
+      new_article = Article(self, magazine, title)
+      return new_article
 
     def magazines(self):
-        return []
-
-    def add_article(self, magazine, title):
-        pass
+        return {magazine for magazine in Article.all if magazine.author == self}
+    def add_magazine(self, magazine):
+        return [self, magazine]
 
     def topic_areas(self):
-        pass
-
+        if self.articles():
+            return list(set(article.magazine.category for article in self.articles()))
+        else:
+            return None
 class Magazine:
+    all = {}
+
     def __init__(self, name, category):
         self._name = name
         self._category = category
@@ -94,13 +94,16 @@ class Magazine:
             self._category = category
 
     def articles(self):
-        pass
+        return [article for article in Article.all if article._magazine == self]
 
     def contributors(self):
-        pass
+        return [article._author for article in Article.all if article._magazine == self]
 
     def article_titles(self):
-        pass
+        if self.articles():
+            return [article.title for article in self.articles()]
+        else:
+            return None
 
     def contributing_authors(self):
         pass
