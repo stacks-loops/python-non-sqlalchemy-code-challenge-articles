@@ -106,4 +106,16 @@ class Magazine:
             return None
 
     def contributing_authors(self):
-        pass
+        author_count = {}
+        for article in self.articles():
+            if isinstance(article.author, Author):
+                if article.author in author_count:
+                    author_count[article.author] += 1
+                else:
+                    author_count[article.author] =1
+        contributing_authors =[author for author, count in author_count.items() if count > 2]        
+        
+        if contributing_authors:
+            return contributing_authors
+        else:
+            return None
