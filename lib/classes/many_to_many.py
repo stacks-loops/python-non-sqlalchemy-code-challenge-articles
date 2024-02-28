@@ -1,12 +1,36 @@
+import ipdb
+
 class Article:
-    def __init__(self, author, magazine, title):
+    all = []
+
+    def __init__(self, author, magazine, title="placeholder"):
         self.author = author
         self.magazine = magazine
-        self.title = title
+        self._title = title
+        Article.all.append(self)
+    
+    @property
+    def title(self):
+        return self._title
+    @title.setter
+    def title(self, new_title):
+        if type(new_title) == str and 5 <= len(new_title) <= 50:
+            self._title = new_title
         
 class Author:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, name="placeholder"):
+        self._name = name
+
+    @property
+    def name(self):
+        return self._name
+    
+    def __setattr__(self, attr, value):
+        if attr == "name" and hasattr(self, attr):
+            raise AttributeError("Cannot change the value of 'name'")
+        else:
+            super().__setattr__(attr, value)
+
 
     def articles(self):
         pass
