@@ -12,6 +12,7 @@ class Article:
     @property
     def title(self):
         return self._title
+    
     @title.setter
     def title(self, new_title):
         if type(new_title) == str and 5 <= len(new_title) <= 50:
@@ -43,6 +44,7 @@ class Article:
 class Author:
     def __init__(self, name):
         self._name = name
+        self._name_assigned = True
 
     @property
     def name(self):
@@ -50,9 +52,9 @@ class Author:
     
     @name.setter
     def name(self, name):
-        if isinstance(name, str) and name != "" and hasattr(self, 'name'):
+        if isinstance(name, str) and name != "" and not hasattr(self, 'name'):
             self._name = name
-
+    
     def articles(self):
         return [article for article in Article.all if article.author == self]
     def add_article(self, magazine, title):
