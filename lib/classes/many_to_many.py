@@ -62,6 +62,7 @@ class Author:
       return new_article
 
     def magazines(self):
+        ipdb.set_trace()
         return list({article.magazine for article in self.articles()})
     def add_magazine(self, magazine):
         return [self, magazine]
@@ -120,4 +121,9 @@ class Magazine:
         if contributing_authors:
             return contributing_authors
         else:
+            return None
+        
+    @classmethod
+    def top_publisher(cls):
+        if not cls.all:
             return None
