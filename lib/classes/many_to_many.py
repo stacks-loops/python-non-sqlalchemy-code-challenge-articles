@@ -62,7 +62,7 @@ class Author:
       return new_article
 
     def magazines(self):
-        return {magazine for magazine in Article.all if magazine.author == self}
+        return list({article.magazine for article in self.articles()})
     def add_magazine(self, magazine):
         return [self, magazine]
 
@@ -99,7 +99,7 @@ class Magazine:
         return [article for article in Article.all if article._magazine == self]
 
     def contributors(self):
-        return [article._author for article in Article.all if article._magazine == self]
+         return list(set(article.author for article in self.articles()))
 
     def article_titles(self):
         if self.articles():
